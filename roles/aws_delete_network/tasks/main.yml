@@ -1,0 +1,17 @@
+---
+- import_tasks: facts_vpc.yml
+  ignore_errors: True
+- import_tasks: facts_nat.yml
+  ignore_errors: True
+- import_tasks: delete_dhcp_options.yml
+  ignore_errors: True
+- import_tasks: delete_nat.yml
+  ignore_errors: True
+- import_tasks: delete_igw.yml
+  ignore_errors: True
+- import_tasks: delete_subnet.yml
+  ignore_errors: True 
+- import_tasks: delete_vpc_acl.yml
+  ignore_errors: True
+- import_tasks: delete_vpc.yml
+  ignore_errors: True

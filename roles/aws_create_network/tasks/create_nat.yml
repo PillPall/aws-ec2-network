@@ -1,0 +1,13 @@
+---
+- name: Create NAT Gateway
+  ec2_vpc_nat_gateway:
+    region: "{{ aws_region }}"
+    subnet_id: "{{ vpc_subnet_nat_id }}"
+    state: present
+    wait: yes
+    wait_timeout: 600
+  register: vpc_create_nat
+
+- name: Seve created NAT Gateway data
+  set_fact:
+    vpc_create_nat_id: "{{ vpc_create_nat.nat_gateway_id }}"

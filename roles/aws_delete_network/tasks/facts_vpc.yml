@@ -1,0 +1,58 @@
+---
+- name: Gather facts about configured VPC
+  ec2_vpc_net_facts:
+    region: "{{ aws_region }}"
+    filters:
+        "tag:Name": "vpc_{{ company }}"
+        "tag:Environment": "vpc_{{ aws_environment }}"
+  register: vpc_facts
+
+- set_fact:
+    vpc_fact_id: "{{ item.id }}"
+  with_items:
+   - "{{ vpc_facts.vpcs }}"
+
+- name: Gather facts about configured DHCP Options
+  ec2_vpc_dhcp_option_facts:
+    region: "{{ aws_region }}"
+    filters:
+        "tag:Name": "dhcp_options_{{ company }}"
+  register: dhcp_options_facts
+
+- set_fact:
+   vpc_fact_dhcp_options_id: "{{ item.dhcp_options_id }}"
+  with_items:
+   - "{{ dhcp_options_facts.dhcp_options }}"
+
+- set_fact:
+    vpc_subnet_nat_name: "{{ item.subnet_name }}"
+  when: "'NAT' in '{{ item.subnet_name }}'"
+  with_items:
+   - "{{ vpc_subnet_list }}"
+
+- ec2_vpc_subnet_facts:
+    region: "{{ aws_region }}"
+    filters:
+      "tag:Name": "vpc_{{ company }}_subnet_{{ vpc_subnet_nat_name }}"
+  register: vpc_facts_subnet_nat
+
+- set_fact:
+    vpc_subnet_nat_id: "{{ item.id }}"
+  with_items:
+   - "{{ vpc_facts_subnet_nat.subnets }}"
+
+- ec2_vpc_subnet_facts:
+    region: "{{ aws_region }}"
+    filters:
+      "tag:Environment": "vpc_subnet_{{ aws_environment }}"
+
+- set_fact:
+   vpc_temp_subn2: 
+
+- set_fact:
+    vpc_temp_subn2: "{{ vpc_temp_subn2 }} 'vpc_{{ company }}_subnet_{{ item.subnet_name }}',"
+  with_items:
+   - "{{ vpc_subnet_list }}"
+
+- set_fact:
+    vpc_subn: "[{{ vpc_temp_subn2 }}]"

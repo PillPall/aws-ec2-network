@@ -1,0 +1,17 @@
+---
+- ec2_vpc_route_table_facts:
+    region: "{{ aws_region }}"
+    filters:
+      "tag:Environment": "vpc_route_{{ aws_environment }}"
+  register: vpc_route_tables_delete
+
+- name: Delete ROOT Routing tables
+  ec2_vpc_route_table:
+    region: "{{ aws_region }}"
+    state: absent
+    vpc_id: "{{ vpc_fact_id }}"
+    lookup: id
+    route_table_id: "{{ item.id }}"
+  with_items:
+   - "{{ vpc_route_tables_delete.route_tables }}"
+  register: route_table_delete

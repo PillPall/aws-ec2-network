@@ -1,0 +1,25 @@
+---
+- ec2_vpc_nat_gateway_facts:
+    region: "{{ aws_region }}"
+    filters:
+       subnet-id: "{{ vpc_subnet_nat_id }}" 
+  register: vpc_facts_delete_nat
+  when: vpc_subnet_nat_id is defined
+
+- set_fact:
+    vpc_nat_id: "{{ item.nat_gateway_id }}"
+  with_items:
+   - "{{ vpc_facts_delete_nat.result }}"
+  when: vpc_facts_delete_nat is defined
+
+- name: Delete NAT Gateway
+  ec2_vpc_nat_gateway:
+    region: "{{ aws_region }}"
+    subnet_id: "{{ vpc_subnet_nat_id }}"
+    nat_gateway_id: "{{ vpc_nat_id }}"
+    release_eip: yes
+    state: absent
+    wait: yes
+    wait_timeout: 600
+  register: vpc_delete_nat
+  when: vpc_nat_id is defined

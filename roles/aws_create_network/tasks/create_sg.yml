@@ -1,0 +1,12 @@
+---
+- name: Set Security groups
+    ec2_group:
+    region: "{{ aws_region }}"
+    state: present
+    vpc_id: "{{ vpc_create.vpc.id }}"
+    resource_tags:
+      Name: "vpc_{{ company }}_SG_ROOT"
+      Environment: "vpc_route_{{ aws_environment }}"
+    rules:
+
+    rules_egress:

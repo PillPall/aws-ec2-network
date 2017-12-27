@@ -1,0 +1,14 @@
+---
+- name: Gather facts about configured DHCP Options
+  ec2_vpc_dhcp_option_facts:
+    region: "{{ aws_region }}"
+    filters:
+        "tag:Name": "dhcp_options_{{ company }}"
+  register: dhcp_options_facts
+
+- name: Delete DHCP options
+  ec2_vpc_dhcp_option:
+    region: "{{ aws_region }}"
+    dhcp_options_id: "{{ vpc_fact_dhcp_options_id }}"
+    state: absent
+  register: delete_dhcp_options

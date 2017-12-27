@@ -1,0 +1,8 @@
+---
+- ec2_vpc_net:
+    region: "{{ aws_region }}"
+    name: "vpc_{{ company }}"
+    cidr_block: "{{ vpc_block }}"
+    state: absent
+  register: delete_vpc
+  ignore_errors: True

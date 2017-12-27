@@ -1,0 +1,26 @@
+---
+# AWS specific variables
+aws_region: ap-southeast-2
+
+# General Data to create / delete the network configuration
+# Company Name
+company: ZZZ_Example
+# Network Environment ex.: production
+aws_environment: test
+# VPC Adress Block 
+vpc_block: 192.168.0.0/16
+# DNS primary and secondary server to create DHCP options ( optional )
+dns_primary: 192.168.0.1
+dns_secondary: 192.168.1.1
+
+# Definition of all subnets to create or delete.
+# Variable subnet_name & subnet_cidr are necessary
+vpc_subnet_list:
+ - subnet_name: ROOT
+   subnet_cidr: 192.168.0.0/24
+ - subnet_name: APP
+   subnet_cidr: 192.168.1.0/24
+ - subnet_name: LOGIN
+   subnet_cidr: 192.168.2.0/24
+ - subnet_name: NAT_Internet
+   subnet_cidr: 192.168.3.0/24

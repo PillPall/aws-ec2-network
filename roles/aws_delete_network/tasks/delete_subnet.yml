@@ -1,0 +1,10 @@
+---
+- name: Delete defined subnets
+  ec2_vpc_subnet:
+    region: "{{ aws_region }}"
+    state: absent
+    vpc_id: "{{ vpc_fact_id }}"
+    cidr: "{{ item.subnet_cidr }}"
+  register: "subnet_{{ item.subnet_name }}_create"
+  with_items:
+   - "{{ vpc_subnet_list }}"

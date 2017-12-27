@@ -1,0 +1,21 @@
+---
+# 3 steps to determine the subnet-id of the NAT Network
+- name: Determine NAT subnet name
+  set_fact:
+    vpc_subnet_nat_name: "{{ item.subnet_name }}"
+  when: "'NAT' in '{{ item.subnet_name }}'"
+  with_items:
+   - "{{ vpc_subnet_list }}"
+
+- name: Gather all information about the NAT subnet
+  ec2_vpc_subnet_facts:
+    region: "{{ aws_region }}"
+    filters:
+      "tag:Name": "vpc_{{ company }}_subnet_{{ vpc_subnet_nat_name }}"
+  register: vpc_facts_subnet_nat
+
+- name: Save subnet id of the NAT subnet
+  set_fact:
+    vpc_subnet_nat_id: "{{ item.id }}"
+  with_items:
+   - "{{ vpc_facts_subnet_nat.subnets }}"

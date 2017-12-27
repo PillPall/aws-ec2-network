@@ -1,0 +1,13 @@
+---
+- name: Gather facts for Nat gateway
+  ec2_vpc_subnet_facts:
+    region: "{{ aws_region }}"
+    filters:
+      "tag:Name": "vpc_{{ company }}_subnet_{{ item.subnet_name }}"
+  register: vpc_facts
+
+- name: set Facts about Subnet for NAT Gateway
+  set_fact:
+    subn_id: "{{ item.id }}"
+  with_items:
+  - "{{ vpc_facts.subnets }}"

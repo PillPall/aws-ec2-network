@@ -1,0 +1,9 @@
+---
+- name: Delete ACLs for Network VPC
+  ec2_vpc_nacl:
+    region: "{{ aws_region }}"
+    vpc_id: "{{ vpc_fact_id }}"
+    name: "vpc_acl_{{ company }}"
+    state: absent
+    subnets: "{{ vpc_subn }}"
+  register: delete_vpc_acl

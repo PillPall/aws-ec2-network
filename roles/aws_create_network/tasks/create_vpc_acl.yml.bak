@@ -1,0 +1,24 @@
+---
+- name: Create standard ACLs for VPC
+  ec2_vpc_nacl:
+    region: "{{ aws_region }}"
+    vpc_id: "{{ vpc_create.vpc.id }}"
+    name: "vpc_acl_{{ company }}"
+    state: present
+    subnets: "{{ vpc_subn }}"
+    ingress: [
+        # rule no, protocol, allow/deny, cidr, icmp_code, icmp_type,
+        #                                             port from, port to
+        [100, 'tcp', 'allow', '0.0.0.0/0', null, null, 22, 22],
+        [200, 'tcp', 'allow', '0.0.0.0/0', null, null, 80, 80],
+        [300, 'icmp', 'allow', '0.0.0.0/0', 0, 8],
+    ]
+    egress: [
+        [100, 'all', 'allow', '0.0.0.0/0', null, null, null, null]
+    ]
+    state: 'present'
+    tags:
+      Environment: "vpc_acl_{{ aws_environment }}"
+  with_items:
+    "{{ vpc_acl_rule_list }}"
+  register: create_vpc_acl

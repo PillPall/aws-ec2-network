@@ -1,0 +1,12 @@
+---
+- name: Create defined VPC
+  ec2_vpc_net:
+    region: "{{ aws_region }}"
+    cidr_block: "{{ vpc_block }}"
+    name: "vpc_{{ company }}"
+    state: present
+    dns_support: yes
+    resource_tags: 
+      Name: "vpc_{{company}}"
+      Environment: "vpc_{{ aws_environment }}"
+  register: vpc_create

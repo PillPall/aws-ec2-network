@@ -1,0 +1,14 @@
+---
+- name: Gather facts about routing table
+  ec2_vpc_route_table_facts:
+    region: "{{ aws_region }}"
+    filters:
+      "tag:Name": "{{ vpc_route_table_name }}"
+  register: route_facts
+
+- name: set Facts about routing table
+  set_fact:
+    route_vpc: "{{ item.vpc_id }}"
+    route_id: "{{ item.id }}"
+  with_items:
+  - "{{ route_facts.route_tables }}"

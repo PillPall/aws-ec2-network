@@ -1,0 +1,11 @@
+---
+- import_tasks: facts_vpc.yml
+  ignore_errors: True
+- import_tasks: create_vpc.yml
+- import_tasks: create_dhcp_options.yml
+- import_tasks: create_subnet.yml
+- import_tasks: create_vpc_acl.yml
+- import_tasks: create_igw.yml
+- import_tasks: facts_nat.yml
+- import_tasks: create_nat.yml
+#- import_tasks: create_route.yml

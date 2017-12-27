@@ -1,0 +1,6 @@
+---
+- name: set Facts about fresh created NAT Gateway
+  set_fact:
+    nat_id: "{{ item.nat_gateway_id }}"
+  with_items:
+  - "{{ new_nat }}"

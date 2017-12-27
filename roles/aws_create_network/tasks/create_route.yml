@@ -1,0 +1,20 @@
+---
+- name: debug
+  debug: 
+   msg: "{{ item.route1 }}"
+  with_items:
+   - "{{ vpc_route_list }}"
+
+- name: "Set Routing tables"
+  ec2_vpc_route_table:
+    region: "{{ aws_region }}"
+    state: present
+    vpc_id: "{{ vpc_create }}"
+    subnets:
+     - "{{ item.route.subnets }}"
+    routes: 
+      - "{{ item.route.routes }}"
+    resource_tags:
+      - "{{ item.route.resource_tags }}"
+  with_items:
+   - "{{ vpc_route_list }}"

@@ -1,0 +1,14 @@
+---
+- name: Set up NAT-protected route table
+  ec2_vpc_route_table:
+    region: "{{ aws_region }}"
+#    vpc_id: "{{ route_vpc }}"
+    vpc_id: vpc-d5c2ddb1
+#    route_table_id: "{{ route_id }}"
+    route_table_id: rtb-ec1a9b8b
+    state: present
+    routes:
+      - dest: 0.0.0.0/0
+#        instance_id: "{{ nat_id }}"
+        instance_id: nat-063e47e1ac9a3ee51
+  register: nat_route_table

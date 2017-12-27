@@ -1,0 +1,13 @@
+---
+- name: Create defined subnets
+  ec2_vpc_subnet:
+    region: "{{ aws_region }}"
+    state: present
+    vpc_id: "{{ vpc_create.vpc.id }}"
+    cidr: "{{ item.subnet_cidr }}"
+    resource_tags:
+      Name: "vpc_{{ company }}_subnet_{{ item.subnet_name }}"
+      Environment: "vpc_subnet_{{ aws_environment }}"
+  register: "subnet_{{ item.subnet_name }}_create"
+  with_items:
+   - "{{ vpc_subnet_list }}"
