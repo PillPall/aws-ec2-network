@@ -18,7 +18,7 @@ Prerequisets:
 
 Usage:
 
-* Modify variable in 'group_vars/all/main.yam' to own needs.
+* Modify variables in 'group_vars/all/main.yam' to own needs.
   - Define aws_region
   - Define company name
   - Define Network Environment example: Test, DEV
@@ -32,6 +32,7 @@ To create a network:
 To delete a network:
 # ansible-playbook aws_delete_network.yml
 
+
 The network will be created with following VPC ACL rules:
 Incoming: 
 * Allow Port 22 & 80
@@ -39,8 +40,13 @@ Incoming:
 Outgoing:
 * Allow everything
 
-They can be modified in following file: "iroles/aws_create_network/tasks/create_vpc_acl.yml"
+They can be modified in following file: "roles/aws_create_network/tasks/create_vpc_acl.yml"
 
-TO-DO:
-* Adding automated handling of Routing tables
-* Adding automated handling of Security groups
+TO-DOs:
+[TO-Dos](./TO-DO.md)
+
+Changelog:
+[Changelog](.CHANGELOG.MD)
+
+Contributing:
+For any questions use github or email: github@mbloch.de
