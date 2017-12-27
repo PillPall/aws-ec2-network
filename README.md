@@ -1,4 +1,4 @@
-Synopsis:
+#Synopsis:
 An Ansible template which helps you to create/ delete a defined AWS EC2 Network:
 * Create VPC
 * Create DHCP options
@@ -7,16 +7,16 @@ An Ansible template which helps you to create/ delete a defined AWS EC2 Network:
 * Create Internet Gateway
 * Create NAT Gateway
 
-Prerequisets:
+#Prerequisets:
 * Ansible 2.4
 * Python 2.7.10
 * AWS Account and configured Access Key and Secret Access Key
 * EC2.PY & EC2.INI are configured and loaded ( see https://github.com/ansible/ansible/tree/devel/contrib/inventory )
 * Set following AWS environment variable:
- - AWS_ACCESS_KEY_ID
- - AWS_SECRET_ACCESS_KEY
+  - AWS_ACCESS_KEY_ID
+  - AWS_SECRET_ACCESS_KEY
 
-Usage:
+#Usage:
 
 * Modify variables in 'group_vars/all/main.yam' to own needs.
   - Define aws_region
@@ -27,11 +27,13 @@ Usage:
   - Define Subnetname and Subnet CIDR
 
 To create a network:
+```
 # ansible-playbook aws_create_network.yml
-
+```
 To delete a network:
+```
 # ansible-playbook aws_delete_network.yml
-
+```
 
 The network will be created with following VPC ACL rules:
 Incoming: 
@@ -40,13 +42,13 @@ Incoming:
 Outgoing:
 * Allow everything
 
-They can be modified in following file: "roles/aws_create_network/tasks/create_vpc_acl.yml"
+They can be modified in following file: **roles/aws_create_network/tasks/create_vpc_acl.yml**
 
-TO-DOs:
-[TO-Dos](./TO-DO.md)
+#TO-DOs:
+[TO-DOs](./TO-DO.md)
 
-Changelog:
-[Changelog](.CHANGELOG.MD)
+#Changelog:
+[Changelog](./CHANGELOG.MD)
 
-Contributing:
+#Contributing:
 For any questions use github or email: github@mbloch.de
