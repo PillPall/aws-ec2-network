@@ -45,10 +45,10 @@ Outgoing:
 They can be modified in following file: **roles/aws_create_network/tasks/create_vpc_acl.yml**
 
 # TO-DOs:
-[TO-DOs](./TO-DO.md)
+[TO-DOs](./TODO.md)
 
 # Changelog:
-[Changelog](./CHANGELOG.MD)
+[Changelog](./CHANGELOG.md)
 
 # Contributing:
 For any questions use github or email: github@mbloch.de
