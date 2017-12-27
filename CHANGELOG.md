@@ -2,9 +2,9 @@
 
 # 0.0.1 - 12-27-2017
 ### ADDED
-- Create VPC
-- Create DHCP options
-- Create Subnets
-- Create VPC ACL
-- Create Internet Gateway
-- Create NAT Gateway
+- Create/ delete VPC
+- Create/ delete DHCP options
+- Create/ delete Subnets
+- Create/ delete VPC ACL
+- Create/ delete Internet Gateway
+- Create/ delete NAT Gateway
