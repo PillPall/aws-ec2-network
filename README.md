@@ -44,6 +44,7 @@ Incoming:
 Outgoing:
 * Allow everything
 
+
 They can be modified in following file: **roles/aws_create_network/tasks/create_vpc_acl.yml**
 
 # TO-DOs:
