@@ -1,0 +1,109 @@
+---
+# Set temp path for template files
+- set_fact: 
+    temp_route_path: /tmp/aws_route
+
+# Gather facts about created subnets
+- ec2_vpc_subnet_facts:
+    region: "{{ aws_region }}"
+    filters:
+      "tag:Company": "{{ company }}"
+      "tag:Environment": "*{{ aws_environment }}"
+      "tag:Name": "*{{ item.1.sub_name }}"
+  register: vpc_route_subnet_info
+  with_subelements:
+    - "{{ routes }}"
+    - subnets
+
+# Use gather facts to save subnet id of every created subnet in a more friendly readable variable
+- set_fact:
+    "vpc_subnet_{{ item[1].subnet_name }}_id": "{{ item[0].subnets.0.id}}"
+  with_nested:
+    - "{{ vpc_route_subnet_info.results }}"
+    - "{{ vpc_subnet_list }}"
+  when: item[1].subnet_name in item[0].subnets.0.tags.Name
+
+# Create temp directory
+- file:
+    path: "{{ temp_route_path }}"
+    state: directory
+    mode: 0770
+
+# copy route table file 
+- template:
+    src: create-route-table.json
+    dest: "{{ temp_route_path }}/create-route-table.json"
+  register: route_table_template
+
+# Create for every route table entry a new empty route table
+- name: Create Route table
+  command: /usr/local/bin/aws ec2 create-route-table --cli-input-json "file://{{ route_table_template.dest }}"
+  register: "route_table_create"
+  with_items:
+    - "{{ routes }}"
+
+# Save output of route table creation for later use
+- set_fact: 
+   route_table_info: "{{ route_table_create.results }}"
+
+# Save stdout of route table creatio to every route table entry
+- set_fact:
+    "route_table_info_{{ item.item.name }}": "{{ item.stdout }}"
+  with_items:
+    - "{{ route_table_info }}"
+
+# Save Route Table ID
+- set_fact:
+   "route_table_id_{{ item.name }}": "{{vars['route_table_info_' + item.name].RouteTable.RouteTableId}}"
+  with_items:
+    - "{{ routes }}"
+
+# Create a template file to tag every route table
+- name: Create Tag file
+  template:
+    src: route_table_tag.json
+    dest: "{{ temp_route_path }}/route_table_tag-{{ item.name }}.json"
+  with_items:
+    - "{{ routes }}" 
+
+# Tag every created route table
+- name: Tag Route table
+  command: /usr/local/bin/aws ec2 create-tags --cli-input-json "file://{{ item }}"
+  with_fileglob: 
+   - "{{ temp_route_path }}/route_table_tag*"
+
+# Create routes
+- name: Create Route table
+  command: /usr/local/bin/aws ec2 create-route --route-table-id "{{vars['route_table_id_' + item.0.name] }}"  --destination-cidr-block "{{ item.1.dest }}" --gateway-id "{{ item.1.gw }}"
+  with_subelements:
+    - "{{ routes }}"
+    - route_dest
+    - flags:
+      skip_missing: true
+  when:
+    - item.1.gw is defined
+    - '"NAT" not in "{{ item.0.name }}"'
+
+# Create route for NAT 
+- name: Create NAT route table
+  command: /usr/local/bin/aws ec2 create-route --route-table-id "{{vars['route_table_id_' + item.0.name] }}"  --destination-cidr-block "{{ item.1.dest }}" --nat-gateway-id "{{ item.1.gw }}"
+  with_subelements:
+    - "{{ routes }}"
+    - route_dest
+    - flags:
+      skip_missing: true
+  when:
+    - item.1.gw is defined
+    - '"NAT" in "{{ item.0.name }}"'
+
+# Add Subnets to route table
+- name: Add subnets to route table
+  command: /usr/local/bin/aws ec2 associate-route-table --route-table-id "{{vars['route_table_id_' + item.0.name] }}" --subnet-id "{{vars['vpc_subnet_' + item.1.sub_name + '_id']}}"
+  with_subelements:
+    - "{{ routes }}"
+    - subnets
+
+# Delete temp directory
+- file:
+    path: "{{ temp_route_path }}"
+    state: absent

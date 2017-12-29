@@ -8,6 +8,7 @@
     resource_tags:
       Name: "vpc_{{ company }}_subnet_{{ item.subnet_name }}"
       Environment: "vpc_subnet_{{ aws_environment }}"
+      Company: "{{ company }}"
   register: "subnet_{{ item.subnet_name }}_create"
   with_items:
    - "{{ vpc_subnet_list }}"

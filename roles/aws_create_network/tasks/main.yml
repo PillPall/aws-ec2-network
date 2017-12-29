@@ -8,4 +8,4 @@
 - import_tasks: create_igw.yml
 - import_tasks: facts_nat.yml
 - import_tasks: create_nat.yml
-#- import_tasks: create_route.yml
+- import_tasks: create_route_table.yml

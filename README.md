@@ -25,6 +25,7 @@ An Ansible template which helps you to create/ delete a defined AWS EC2 Network:
   - Define VPC Network Adress block
   - Define DNS Server
   - Define Subnetname and Subnet CIDR
+  - Define Route tables
 
 To create a network:
 ```

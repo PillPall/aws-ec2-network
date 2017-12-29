@@ -24,3 +24,23 @@ vpc_subnet_list:
    subnet_cidr: 192.168.2.0/24
  - subnet_name: NAT_Internet
    subnet_cidr: 192.168.3.0/24
+
+routes:
+  - name: "ROOT"
+    subnets:
+      - sub_name: "ROOT"
+  - name: "NAT"
+    subnets:
+      - sub_name: "APP"
+    route_dest:
+      - dest: "0.0.0.0/0"
+        gw: "{{ vpc_create_nat_id }}"
+  - name: "DMZ"
+    subnets:
+      - sub_name: "NAT_Internet"
+      - sub_name: "LOGIN"
+    route_dest:
+      - dest: "1.0.0.0/8"
+        gw: "{{ vpc_igw }}"
+      - dest: "2.0.0.0/8"
+        gw: "{{ vpc_igw }}"

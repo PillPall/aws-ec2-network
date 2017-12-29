@@ -1,0 +1,15 @@
+{
+    "Resources": [
+        "{{vars['route_table_id_' + item.name] }}"
+    ],
+    "Tags": [
+        {
+            "Key": "Name", 
+            "Value": "route_{{ company }}_{{ item.name }}_env_{{ aws_environment }}"
+        },
+	{
+            "Key": "Environment",
+            "Value": "vpc_route_{{ aws_environment }}"
+        }
+    ]
+}
