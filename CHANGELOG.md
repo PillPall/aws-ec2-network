@@ -1,6 +1,6 @@
 # Changelog
 
-# 0.0.3 - 12.30.2017
+# 0.0.3 - 12-30-2017
 ### ADDED
 - Delete VPC route table
 
