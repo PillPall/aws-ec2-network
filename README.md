@@ -53,6 +53,7 @@ The network will be created with following VPC ACL rules:
 Incoming: 
 * Allow Port 22 & 80
 * Allow Ping requests
+
 Outgoing:
 * Allow everything
 
