@@ -1,11 +1,23 @@
 # Synopsis:
 An Ansible template which helps you to create/ delete a defined AWS EC2 Network:
-* Create VPC
-* Create DHCP options
-* Create Subnets
-* Create VPC ACL
-* Create Internet Gateway
-* Create NAT Gateway
+
+Creation:
+ * Create VPC
+ * Create DHCP options
+ * Create subnets
+ * Create VPC ACL
+ * Create internet Gateway
+ * Create NAT Gateway
+ * Create route tables
+
+Deletion:
+ * Delete DHCP options
+ * Delete NAT Gateway
+ * Delete internet Gateways
+ * Delete route tables
+ * Delete subnets
+ * Delete VPC ACL
+ * Delete VPC
 
 # Prerequisets:
 * Ansible 2.4
@@ -22,10 +34,10 @@ An Ansible template which helps you to create/ delete a defined AWS EC2 Network:
   - Define aws_region
   - Define company name
   - Define Network Environment example: Test, DEV
-  - Define VPC Network Adress block
-  - Define DNS Server
-  - Define Subnetname and Subnet CIDR
-  - Define Route tables
+  - Define VPC network adress block
+  - Define DNS server
+  - Define subnetname and subnet CIDR
+  - Define route tables
 
 To create a network:
 ```

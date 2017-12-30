@@ -14,7 +14,7 @@ dns_primary: 192.168.0.1
 dns_secondary: 192.168.1.1
 
 # Definition of all subnets to create or delete.
-# Variable subnet_name & subnet_cidr are necessary
+# Elements subnet_name & subnet_cidr are necessary
 vpc_subnet_list:
  - subnet_name: ROOT
    subnet_cidr: 192.168.0.0/24
@@ -25,6 +25,21 @@ vpc_subnet_list:
  - subnet_name: NAT_Internet
    subnet_cidr: 192.168.3.0/24
 
+# Definition of all routes to create or delete.
+# Multiple route tables, subnets and routes can be defined.
+#
+# Important variables:
+#       NAT-Gateway:       {{ vpc_create_nat_id }}
+#       Internet Gateway:  {{ vpc_igw }}
+#
+# Route definition structure:
+# routes:
+#   - name
+#     subnets:
+#       - sub_name
+#     route_dest:
+#       - dest:
+#         gw:
 routes:
   - name: "ROOT"
     subnets:

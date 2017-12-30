@@ -9,6 +9,8 @@
   ignore_errors: True
 - import_tasks: delete_igw.yml
   ignore_errors: True
+- import_tasks: delete_route.yml
+  ignore_errors: True
 - import_tasks: delete_subnet.yml
   ignore_errors: True 
 - import_tasks: delete_vpc_acl.yml
