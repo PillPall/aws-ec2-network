@@ -35,7 +35,8 @@ Deletion:
   - Define company name
   - Define Network Environment example: Test, DEV
   - Define VPC network adress block
-  - Define DNS server
+  - Define DNS server (optional)
+  - define if NAT-Gateway should be created
   - Define subnetname and subnet CIDR
   - Define route tables
 

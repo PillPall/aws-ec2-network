@@ -7,7 +7,13 @@
     wait: yes
     wait_timeout: 600
   register: vpc_create_nat
+  when: create_nat
 
-- name: Seve created NAT Gateway data
+- name: Save created NAT Gateway data
   set_fact:
     vpc_create_nat_id: "{{ vpc_create_nat.nat_gateway_id }}"
+  when: vpc_create_nat.nat_gateway_id is defined
+
+- set_fact:
+    vpc_create_nat_id: "{{ vpc_igw }}"
+  when: not create_nat

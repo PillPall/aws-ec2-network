@@ -1,5 +1,8 @@
 # Changelog
 
+# 0.0.4 - 01-05-2018
+- Added option if NAT Gateway creation true/false
+
 # 0.0.3 - 12-30-2017
 ### ADDED
 - Delete VPC route table

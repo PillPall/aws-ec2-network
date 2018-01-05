@@ -10,8 +10,11 @@ aws_environment: test
 # VPC Adress Block 
 vpc_block: 192.168.0.0/16
 # DNS primary and secondary server to create DHCP options ( optional )
-dns_primary: 192.168.0.1
-dns_secondary: 192.168.1.1
+#dns_primary: 192.168.0.1
+#dns_secondary: 192.168.1.1
+
+# Option to create NAT-Gateway [ true/false]
+create_nat: false
 
 # Definition of all subnets to create or delete.
 # Elements subnet_name & subnet_cidr are necessary
@@ -55,7 +58,7 @@ routes:
       - sub_name: "NAT_Internet"
       - sub_name: "LOGIN"
     route_dest:
-      - dest: "1.0.0.0/8"
+      - dest: "0.0.0.0/8"
         gw: "{{ vpc_igw }}"
-      - dest: "2.0.0.0/8"
+      - dest: "0.0.0.0/8"
         gw: "{{ vpc_igw }}"
