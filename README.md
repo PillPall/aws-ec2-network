@@ -22,7 +22,7 @@ Deletion:
 # Prerequisets:
 * Ansible 2.4
 * Python 2.7.10
-* AWS Account 
+* AWS Account and configured Access Key and Secret Access Key
 * Set following AWS environment variable:
   - AWS_ACCESS_KEY_ID
   - AWS_SECRET_ACCESS_KEY
